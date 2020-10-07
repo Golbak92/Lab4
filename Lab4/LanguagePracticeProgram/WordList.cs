@@ -4,59 +4,58 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LanguagePracticeProgram
+namespace LanguageLibrary
 {
     class WordList
     {
+        public WordList(string name, params string[] languages) //Konstruktor. Sätter properites Name och Languages till parametrarnas värden.
+        {
+            Name = name;
+            Languages = languages;
+        }
+
         public string Name { get; } //Namnet på listan. 
         public string[] Languages { get; } //Namnen på språken.
 
-
-        public Wordlist(string name, params string[] languages)
+        public static string[] GetLists() //Returnerar array med namn på alla listor som finns lagrade (utan filändelsen).
         {
-            //Konstruktor. Sätter properites Name och Languages till parametrarnas värden.
+            return null;
         }
 
-        public static string[] GetLists()
+        public static WordList LoadList(string name) //Laddar in ordlistan (name anges utan filändelse) och returnerar som WordList.
         {
-            //Returnerar array med namn på alla listor som finns lagrade (utan filändelsen).
+            return null;
         }
 
-        public static Wordlist LoadList(string name)
+        public void Save() //Sparar listan till en fil med samma namn som listan och filändelse .dat 
         {
-            //Laddar in ordlistan (name anges utan filändelse) och returnerar som WordList. 
         }
 
-        public void Save()
+        public void Add(params string[] translations) //Lägger till ord i listan. Kasta ArgumentException om det är fel antal translations.
         {
-            //Sparar listan till en fil med samma namn som listan och filändelse .dat 
         }
 
-        public void Add(params string[] translations)
+        public bool Remove(int translation, string word) //translation motsvarar index i Languages. Sök igenom språket och ta bort ordet.
         {
-            //Lägger till ord i listan. Kasta ArgumentException om det är fel antal translations. 
+            return true;
         }
 
-        public bool Remove(int translation, string word)
+        public int Count() //Räknar och returnerar antal ord i listan.
         {
-            //translation motsvarar index i Languages. Sök igenom språket och ta bort ordet. 
-        }
-
-        public int Count()
-        {
-            //Räknar och returnerar antal ord i listan. 
+            return 0;
         }
 
         public void List(int sortByTranslation, Action<string[]> showTranslations)
+        //sortByTranslation = Vilket språk listan ska sorteras på.
+        //showTranslations = Callback som anropas för varje ord i listan.
         {
-            //sortByTranslation = Vilket språk listan ska sorteras på.
-            //showTranslations = Callback som anropas för varje ord i listan.
         }
 
         public Word GetWordToPractice()
+        //Returnerar slumpmässigt Word från listan, med slumpmässigt valda
+        //FromLanguage och ToLanguage(dock inte samma).
         {
-            //Returnerar slumpmässigt Word från listan, med slumpmässigt valda
-            //FromLanguage och ToLanguage(dock inte samma). 
+            return null;
         }
     }
 }

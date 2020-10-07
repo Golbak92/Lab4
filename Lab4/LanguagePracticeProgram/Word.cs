@@ -16,14 +16,12 @@ namespace LanguageLibrary
         public int FromLanguage { get; }
         public int ToLanguage { get; }
 
-        public Word(params string[] translations)
+        public Word(params string[] translations) //initialiserar ’Translations’ med data som skickas in som ’translations’ 
         {
-            //initialiserar ’Translations’ med data som skickas in som ’translations’ 
         }
 
-        public Word(int fromLanguage, int toLanguage, params string[] translations)
+        public Word(int fromLanguage, int toLanguage, params string[] translations) //som ovan, fast sätter även FromLanguage och ToLanguage.
         {
-            //som ovan, fast sätter även FromLanguage och ToLanguage.
         }
     }
 }
