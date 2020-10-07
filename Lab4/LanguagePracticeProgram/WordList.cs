@@ -14,8 +14,8 @@ namespace LanguageLibrary
             Languages = languages;
         }
 
-        public string Name { get; } //Namnet på listan. 
-        public string[] Languages { get; } //Namnen på språken.
+        public string Name { get; } //List name.
+        public string[] Languages { get; } //Name of languages.
 
         public static string[] GetLists() //Returnerar array med namn på alla listor som finns lagrade (utan filändelsen).
         {
@@ -51,9 +51,9 @@ namespace LanguageLibrary
         {
         }
 
-        public Word GetWordToPractice()
-        //Returnerar slumpmässigt Word från listan, med slumpmässigt valda
-        //FromLanguage och ToLanguage(dock inte samma).
+        public Word GetWordToPractice() 
+            //Returnerar slumpmässigt Word från listan, med slumpmässigt valda
+            //FromLanguage och ToLanguage(dock inte samma).
         {
             return null;
         }
