@@ -1,21 +1,17 @@
 ﻿using System;
 using System.IO;
+using System.Security.Cryptography.X509Certificates;
 
-namespace LanguagePracticeProgram
+namespace LanguageLibrary
 {
-    public class Folder
+    public static class Folder
     {
+        public static string PathFolder => Environment.GetFolderPath((Environment.SpecialFolder.LocalApplicationData));
+
+        public static string SpecificFolder => Path.Combine(PathFolder, "LanguagePracticeFiles");
         public static void CreateMap()
         {
-            // The folder for the roaming current user 
-            string folder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-
-            // Combine the base folder with your specific folder....
-            string specificFolder = Path.Combine(folder, "test");
-
-            // CreateDirectory will check if folder exists and, if not, create it.
-            // If folder exists then CreateDirectory will do nothing.
-            Directory.CreateDirectory(specificFolder);
-        }    
+            Directory.CreateDirectory(SpecificFolder);
+        }
     }
 }

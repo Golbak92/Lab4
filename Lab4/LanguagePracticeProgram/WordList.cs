@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace LanguageLibrary
 {
-    class WordList
+    public class WordList
     {
         public WordList(string name, params string[] languages) //Konstruktor. Sätter properites Name och Languages till parametrarnas värden.
         {
@@ -17,9 +20,16 @@ namespace LanguageLibrary
         public string Name { get; } //List name.
         public string[] Languages { get; } //Name of languages.
 
-        public static string[] GetLists() //Returnerar array med namn på alla listor som finns lagrade (utan filändelsen).
+        public static string[] GetLists() //Returnerar array med namn på alla listor som finns lagrade (utan filändelsen).  
         {
-            return null;
+            var folderArray = Directory.GetFiles(Folder.SpecificFolder); //Hämtar filer från diretory i den mapp som är angiven i Folder.
+            var languageArray = new string[folderArray.Length];
+
+            for (int i = 0; i < folderArray.Length; i++) //Kollar igenom folderArrays index
+            {
+                languageArray[i] = Path.GetFileNameWithoutExtension(folderArray[i]);  //Sparar Filernas namn utan filändelsen i languageArray för att sedan returnera
+            }
+            return languageArray;
         }
 
         public static WordList LoadList(string name) //Laddar in ordlistan (name anges utan filändelse) och returnerar som WordList.
@@ -29,6 +39,11 @@ namespace LanguageLibrary
 
         public void Save() //Sparar listan till en fil med samma namn som listan och filändelse .dat 
         {
+            string file = Folder.SpecificFolder + "\\" + Name + ".dat";
+            using FileStream fs = File.Create(file);
+            fs.Close();
+            File.WriteAllLines(file, Languages);
+            var lines = File.ReadLines(file);
         }
 
         public void Add(params string[] translations) //Lägger till ord i listan. Kasta ArgumentException om det är fel antal translations.

@@ -1,9 +1,5 @@
-﻿using LanguagePracticeProgram;
+﻿using LanguageLibrary;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LanguagePracticeConsole
 {
@@ -26,9 +22,32 @@ namespace LanguagePracticeConsole
             switch (userInput)
             {
                 case "lists":
+                    var languageArray = WordList.GetLists();
+
+                    foreach (var languages in languageArray)
+                    {
+                        Console.WriteLine();
+                        Console.WriteLine(languages);
+                    }
                     break;
+
                 case "new":
+                    Console.WriteLine("skriv");
+                    var read = Console.ReadLine().Split(' ');
+                    var name = read[0];
+                    var copyArray = new string[read.Length - 1];
+
+                    for (int i = 1; i < read.Length; i++)
+                    {
+                        copyArray[i - 1] = read[i];
+                    }
+
+                    var wordList = new WordList(name, copyArray);
+                    wordList.Save();
+                    wordList.Add();
+
                     break;
+
                 case "add":
                     break;
                 case "remove":
@@ -44,6 +63,8 @@ namespace LanguagePracticeConsole
                     Console.WriteLine();
                     break;
             }
+
+            Console.ReadLine();
         }
     }
 }
