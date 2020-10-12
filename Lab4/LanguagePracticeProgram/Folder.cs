@@ -1,17 +1,20 @@
 ﻿using System;
+using System.Dynamic;
 using System.IO;
-using System.Security.Cryptography.X509Certificates;
 
 namespace LanguageLibrary
 {
     public static class Folder
     {
-        public static string PathFolder => Environment.GetFolderPath((Environment.SpecialFolder.LocalApplicationData));
+        public static string filePath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
 
-        public static string SpecificFolder => Path.Combine(PathFolder, "LanguagePracticeFiles");
+        public static string filesInDirectory = Path.Combine(filePath, "LanguagePracticeFiles");
+
         public static void CreateMap()
         {
-            Directory.CreateDirectory(SpecificFolder);
-        }
+            // CreateDirectory will check if folder exists and, if not, create it.
+            // If folder exists then CreateDirectory will do nothing.
+            Directory.CreateDirectory(filesInDirectory);
+        }    
     }
 }

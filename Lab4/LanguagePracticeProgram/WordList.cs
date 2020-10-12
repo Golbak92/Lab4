@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime;
-using System.Text;
-using System.Threading.Tasks;
-
 
 namespace LanguageLibrary
 {
@@ -20,16 +15,12 @@ namespace LanguageLibrary
         public string Name { get; } //List name.
         public string[] Languages { get; } //Name of languages.
 
-        public static string[] GetLists() //Returnerar array med namn på alla listor som finns lagrade (utan filändelsen).  
+        public static string[] GetLists() //Returnerar array med namn på alla listor som finns lagrade (utan filändelsen).
         {
-            var folderArray = Directory.GetFiles(Folder.SpecificFolder); //Hämtar filer från diretory i den mapp som är angiven i Folder.
-            var languageArray = new string[folderArray.Length];
-
-            for (int i = 0; i < folderArray.Length; i++) //Kollar igenom folderArrays index
-            {
-                languageArray[i] = Path.GetFileNameWithoutExtension(folderArray[i]);  //Sparar Filernas namn utan filändelsen i languageArray för att sedan returnera
-            }
-            return languageArray;
+            var files = Directory.GetFiles(Folder.filesInDirectory)
+                 .Select(f => Path.GetFileNameWithoutExtension(f))
+                 .ToArray();
+            return files;
         }
 
         public static WordList LoadList(string name) //Laddar in ordlistan (name anges utan filändelse) och returnerar som WordList.
@@ -39,15 +30,18 @@ namespace LanguageLibrary
 
         public void Save() //Sparar listan till en fil med samma namn som listan och filändelse .dat 
         {
-            string file = Folder.SpecificFolder + "\\" + Name + ".dat";
-            using FileStream fs = File.Create(file);
-            fs.Close();
-            File.WriteAllLines(file, Languages);
-            var lines = File.ReadLines(file);
+            //using FileStream fs = File.Create(Folder.filesInDirectory + "\\" + Name + ".dat");
+            var languages = "";
+            for (int i = 0; i < Languages.Length; i++)
+            {
+                languages += Languages[i] + ";";
+            }
+            File.WriteAllText(Folder.filesInDirectory + "\\" + Name + ".dat", languages);
         }
 
         public void Add(params string[] translations) //Lägger till ord i listan. Kasta ArgumentException om det är fel antal translations.
         {
+            var Languages = Languages[i];
         }
 
         public bool Remove(int translation, string word) //translation motsvarar index i Languages. Sök igenom språket och ta bort ordet.
@@ -66,9 +60,9 @@ namespace LanguageLibrary
         {
         }
 
-        public Word GetWordToPractice() 
-            //Returnerar slumpmässigt Word från listan, med slumpmässigt valda
-            //FromLanguage och ToLanguage(dock inte samma).
+        public Word GetWordToPractice()
+        //Returnerar slumpmässigt Word från listan, med slumpmässigt valda
+        //FromLanguage och ToLanguage(dock inte samma).
         {
             return null;
         }

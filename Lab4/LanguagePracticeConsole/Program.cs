@@ -1,5 +1,9 @@
 ﻿using LanguageLibrary;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace LanguagePracticeConsole
 {
@@ -17,53 +21,43 @@ namespace LanguagePracticeConsole
             Console.WriteLine("-words <listName><sortByLanguage>");
             Console.WriteLine("-count <listName>");
             Console.WriteLine("-practice <listName>");
-            string userInput = Console.ReadLine();
+            string[] userInput = Console.ReadLine().Split(' ');
 
-            switch (userInput)
+            switch (userInput[0])
             {
-                case "lists":
-                    var languageArray = WordList.GetLists();
-
-                    foreach (var languages in languageArray)
+                case "-lists":
+                    var files = WordList.GetLists();
+                    foreach (var file in files)
                     {
-                        Console.WriteLine();
-                        Console.WriteLine(languages);
+                        Console.WriteLine(file);
                     }
                     break;
-
-                case "new":
-                    Console.WriteLine("skriv");
-                    var read = Console.ReadLine().Split(' ');
-                    var name = read[0];
-                    var copyArray = new string[read.Length - 1];
-
-                    for (int i = 1; i < read.Length; i++)
+                case "-new":
+                    string listName = userInput[1];
+                    var languageNames = new string[userInput.Length - 2];
+                    for (int i = 2; i < userInput.Length; i++)
                     {
-                        copyArray[i - 1] = read[i];
+                        languageNames[i-2] = userInput[i];
                     }
-
-                    var wordList = new WordList(name, copyArray);
-                    wordList.Save();
-                    wordList.Add();
-
+                    var wordlist = new WordList(listName, languageNames);
+                    wordlist.Save();
+                    wordlist.Add();
                     break;
-
-                case "add":
+                case "-add":
                     break;
-                case "remove":
+                case "-remove":
                     break;
-                case "words":
+                case "-words":
                     break;
-                case "count":
+                case "-count":
                     break;
-                case "practice":
+                case "-practice":
                     break;
 
                 default:
                     Console.WriteLine();
                     break;
             }
-
             Console.ReadLine();
         }
     }
