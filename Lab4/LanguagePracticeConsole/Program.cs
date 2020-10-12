@@ -1,4 +1,4 @@
-﻿using LanguagePracticeProgram;
+﻿using LanguageLibrary;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,29 +21,44 @@ namespace LanguagePracticeConsole
             Console.WriteLine("-words <listName><sortByLanguage>");
             Console.WriteLine("-count <listName>");
             Console.WriteLine("-practice <listName>");
-            string userInput = Console.ReadLine();
+            string[] userInput = Console.ReadLine().Split(' ');
 
-            switch (userInput)
+            switch (userInput[0])
             {
-                case "lists":
+                case "-lists":
+                    var files = WordList.GetLists();
+                    foreach (var file in files)
+                    {
+                        Console.WriteLine(file);
+                    }
                     break;
-                case "new":
+                case "-new":
+                    string listName = userInput[1];
+                    var languageNames = new string[userInput.Length - 2];
+                    for (int i = 2; i < userInput.Length; i++)
+                    {
+                        languageNames[i-2] = userInput[i];
+                    }
+                    var wordlist = new WordList(listName, languageNames);
+                    wordlist.Save();
+                    wordlist.Add();
                     break;
-                case "add":
+                case "-add":
                     break;
-                case "remove":
+                case "-remove":
                     break;
-                case "words":
+                case "-words":
                     break;
-                case "count":
+                case "-count":
                     break;
-                case "practice":
+                case "-practice":
                     break;
 
                 default:
                     Console.WriteLine();
                     break;
             }
+            Console.ReadLine();
         }
     }
 }

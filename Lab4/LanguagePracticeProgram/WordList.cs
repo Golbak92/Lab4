@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LanguageLibrary
 {
-    class WordList
+    public class WordList
     {
         public WordList(string name, params string[] languages) //Konstruktor. Sätter properites Name och Languages till parametrarnas värden.
         {
@@ -19,7 +17,10 @@ namespace LanguageLibrary
 
         public static string[] GetLists() //Returnerar array med namn på alla listor som finns lagrade (utan filändelsen).
         {
-            return null;
+            var files = Directory.GetFiles(Folder.filesInDirectory)
+                 .Select(f => Path.GetFileNameWithoutExtension(f))
+                 .ToArray();
+            return files;
         }
 
         public static WordList LoadList(string name) //Laddar in ordlistan (name anges utan filändelse) och returnerar som WordList.
@@ -29,10 +30,18 @@ namespace LanguageLibrary
 
         public void Save() //Sparar listan till en fil med samma namn som listan och filändelse .dat 
         {
+            //using FileStream fs = File.Create(Folder.filesInDirectory + "\\" + Name + ".dat");
+            var languages = "";
+            for (int i = 0; i < Languages.Length; i++)
+            {
+                languages += Languages[i] + ";";
+            }
+            File.WriteAllText(Folder.filesInDirectory + "\\" + Name + ".dat", languages);
         }
 
         public void Add(params string[] translations) //Lägger till ord i listan. Kasta ArgumentException om det är fel antal translations.
         {
+            var Languages = Languages[i];
         }
 
         public bool Remove(int translation, string word) //translation motsvarar index i Languages. Sök igenom språket och ta bort ordet.
@@ -51,9 +60,9 @@ namespace LanguageLibrary
         {
         }
 
-        public Word GetWordToPractice() 
-            //Returnerar slumpmässigt Word från listan, med slumpmässigt valda
-            //FromLanguage och ToLanguage(dock inte samma).
+        public Word GetWordToPractice()
+        //Returnerar slumpmässigt Word från listan, med slumpmässigt valda
+        //FromLanguage och ToLanguage(dock inte samma).
         {
             return null;
         }
