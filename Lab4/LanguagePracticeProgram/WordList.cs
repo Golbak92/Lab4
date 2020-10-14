@@ -41,7 +41,7 @@ namespace LanguageLibrary
 
         public void Add(params string[] translations) //Lägger till ord i listan. Kasta ArgumentException om det är fel antal translations.
         {
-            var Languages = Languages[i];
+            
         }
 
         public bool Remove(int translation, string word) //translation motsvarar index i Languages. Sök igenom språket och ta bort ordet.
