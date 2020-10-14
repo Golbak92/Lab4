@@ -9,7 +9,7 @@ namespace LanguagePracticeConsole
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main(string[] args) //video 29 command lines arguments
         {
             Folder.CreateMap();
 
@@ -44,10 +44,14 @@ namespace LanguagePracticeConsole
                     wordlist.Add();
                     break;
                 case "-add":
+                    WordList word = WordList.LoadList(userInput[1]);
+                    word.Add();
+                    
                     break;
                 case "-remove":
                     break;
                 case "-words":
+                    WordList.LoadList("lang3");
                     break;
                 case "-count":
                     break;

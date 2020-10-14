@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -6,6 +7,7 @@ namespace LanguageLibrary
 {
     public class WordList
     {
+        private List<Word> languageWords = new List<Word>();
         public WordList(string name, params string[] languages) //Konstruktor. Sätter properites Name och Languages till parametrarnas värden.
         {
             Name = name;
@@ -25,12 +27,23 @@ namespace LanguageLibrary
 
         public static WordList LoadList(string name) //Laddar in ordlistan (name anges utan filändelse) och returnerar som WordList.
         {
+            if (File.Exists(Folder.filesInDirectory + "\\" + name + ".dat"))
+            {
+                using StreamReader sr = new StreamReader(Folder.filesInDirectory + "\\" + name + ".dat");
+                var languages = sr.ReadLine().TrimEnd(';').Split(';');
+                WordList wordList = new WordList(name, languages);
+                while (!sr.EndOfStream)
+                {
+                    var translations = sr.ReadLine().TrimEnd(';').Split(';');
+                    wordList.Add(translations);
+                }
+                return wordList;
+            }
             return null;
         }
 
         public void Save() //Sparar listan till en fil med samma namn som listan och filändelse .dat 
         {
-            //using FileStream fs = File.Create(Folder.filesInDirectory + "\\" + Name + ".dat");
             var languages = "";
             for (int i = 0; i < Languages.Length; i++)
             {
@@ -41,7 +54,10 @@ namespace LanguageLibrary
 
         public void Add(params string[] translations) //Lägger till ord i listan. Kasta ArgumentException om det är fel antal translations.
         {
-            
+            //for (int i = 0; i < translations.Length; i++)
+            //{
+            //}
+            languageWords.Add(new Word(translations));
         }
 
         public bool Remove(int translation, string word) //translation motsvarar index i Languages. Sök igenom språket och ta bort ordet.
