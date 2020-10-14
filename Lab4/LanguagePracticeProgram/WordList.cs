@@ -8,13 +8,13 @@ namespace LanguageLibrary
     public class WordList
     {
         private List<Word> languageWords = new List<Word>();
-        public WordList(string name, params string[] languages) //Konstruktor. Sätter properites Name och Languages till parametrarnas värden.
+        public WordList(string fileName, params string[] languages) //Konstruktor. Sätter properites Name och Languages till parametrarnas värden.
         {
-            Name = name;
+            this.fileName = fileName;
             Languages = languages;
         }
 
-        public string Name { get; } //List name.
+        public string fileName { get; } //List name.
         public string[] Languages { get; } //Name of languages.
 
         public static string[] GetLists() //Returnerar array med namn på alla listor som finns lagrade (utan filändelsen).
@@ -25,13 +25,13 @@ namespace LanguageLibrary
             return files;
         }
 
-        public static WordList LoadList(string name) //Laddar in ordlistan (name anges utan filändelse) och returnerar som WordList.
+        public static WordList LoadList(string fileName) //Laddar in ordlistan (name anges utan filändelse) och returnerar som WordList.
         {
-            if (File.Exists(Folder.filesInDirectory + "\\" + name + ".dat"))
+            if (File.Exists(Folder.filesInDirectory + "\\" + fileName + ".dat"))
             {
-                using StreamReader sr = new StreamReader(Folder.filesInDirectory + "\\" + name + ".dat");
+                using StreamReader sr = new StreamReader(Folder.filesInDirectory + "\\" + fileName + ".dat");
                 var languages = sr.ReadLine().TrimEnd(';').Split(';');
-                WordList wordList = new WordList(name, languages);
+                WordList wordList = new WordList(fileName, languages);
                 while (!sr.EndOfStream)
                 {
                     var translations = sr.ReadLine().TrimEnd(';').Split(';');
@@ -44,12 +44,37 @@ namespace LanguageLibrary
 
         public void Save() //Sparar listan till en fil med samma namn som listan och filändelse .dat 
         {
-            var languages = "";
-            for (int i = 0; i < Languages.Length; i++)
+            if (File.Exists(Folder.filesInDirectory + "\\" + fileName + ".dat"))
             {
-                languages += Languages[i] + ";";
+                //var addWords = LoadList(fileName).Count();
+                //for (int i = 0; i < fileName.Length; i++)
+                //{
+                //    File.AppendAllText(Folder.filesInDirectory + "\\" + Name + ".dat", Languages[i] + ";");
+                //    languages += Languages[i] + ";";
+                //}
+                //File.AppendAllText(Folder.filesInDirectory + "\\" + Name + ".dat", Environment.NewLine);
+                //File.AppendAllText(Folder.filesInDirectory + "\\" + fileName + ".dat", );
             }
-            File.WriteAllText(Folder.filesInDirectory + "\\" + Name + ".dat", languages);
+            else
+            {
+                var languages = "";
+                for (int i = 0; i < Languages.Length; i++)
+                {
+                    File.AppendAllText(Folder.filesInDirectory + "\\" + fileName + ".dat", Languages[i] + ";");
+                    languages += Languages[i] + ";";
+                }
+                File.AppendAllText(Folder.filesInDirectory + "\\" + fileName + ".dat", Environment.NewLine);
+            }
+            //var languages = "";
+            //for (int i = 0; i < Languages.Length; i++)
+            //{
+            //    languages += Languages[i] + ";";
+            //}
+            //File.WriteAllText(Folder.filesInDirectory + "\\" + Name + ".dat", languages);
+
+            //File.
+
+
         }
 
         public void Add(params string[] translations) //Lägger till ord i listan. Kasta ArgumentException om det är fel antal translations.
