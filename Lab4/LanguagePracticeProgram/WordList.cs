@@ -45,38 +45,41 @@ namespace LanguageLibrary
         public void Save() //Sparar listan till en fil med samma namn som listan och filändelse .dat 
         {
 
-            if (File.Exists(Folder.filesInDirectory + "\\" + fileName + ".dat"))
-            {
+            //if (File.Exists(Folder.filesInDirectory + "\\" + fileName + ".dat"))
+            //{
                 LoadList(fileName);
-                StreamWriter addWords = new StreamWriter(Folder.filesInDirectory + "\\" + fileName + ".dat", false);
+            //StreamWriter addWords = new StreamWriter(Folder.filesInDirectory + "\\" + fileName + ".dat", false);
 
-                for (int i = 0; i < Languages.Length; i++)
-                {
-                    foreach (var wordArray in languageWords)
-                    {
-                        foreach (var translation in wordArray.Translations)
-                        {
-                            addWords.WriteLine($"\n{translation} + ;");
-                        }
-                    }
-                }
-            }
-            else
+                //for (int i = 0; i < Languages.Length; i++)
+                //{
+                //    foreach (var wordArray in languageWords)
+                //    {
+                //        foreach (var translation in wordArray.Translations)
+                //        {
+                //            addWords.WriteLine($"\n{translation} + ;");
+                //        }
+                //    }
+                //}
+                //}
+            //else
+            //{
+            var languages = "";
+            for (int i = 0; i < Languages.Length; i++)
             {
-                var languages = "";
-                for (int i = 0; i < Languages.Length; i++)
-                {
-                    languages += Languages[i] + ";";
-                }
-                File.AppendAllText(Folder.filesInDirectory + "\\" + fileName + ".dat", languages);
-
-                var words = "";
-                for (int i = 0; i < languageWords.Count; i++)
-                {
-                    words += languageWords[i] + ";";
-                }
-                File.AppendAllText(Folder.filesInDirectory + "\\" + fileName + ".dat", words + ";");
+                languages += Languages[i] + ";";
             }
+            File.WriteAllText(Folder.filesInDirectory + "\\" + fileName + ".dat", languages);
+
+            var words = "";
+            for (int i = 0; i < languageWords.Count-1; i++)
+            {
+                for (int j = 0; j < Languages.Length-1; j++)
+                {
+                words += languageWords[i].Translations[j] + ";";
+                }
+            }
+            File.AppendAllText(Folder.filesInDirectory + "\\" + fileName + ".dat", words);
+            //}
         }
 
         public void Add(params string[] translations) //Lägger till ord i listan. Kasta ArgumentException om det är fel antal translations.

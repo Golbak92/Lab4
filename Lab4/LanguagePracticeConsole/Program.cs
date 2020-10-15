@@ -58,8 +58,8 @@ namespace LanguagePracticeConsole
                             }
                         }
                         wordList.Add(wordArray);
-                        wordList.Save();
                     }
+                        wordList.Save();
                     break;
                 case "-remove":
                     break;
