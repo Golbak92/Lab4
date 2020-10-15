@@ -23,6 +23,9 @@ namespace LanguageLibrary
 
         public Word(int fromLanguage, int toLanguage, params string[] translations) //som ovan, fast sätter även FromLanguage och ToLanguage.
         {
+            FromLanguage = fromLanguage;
+            ToLanguage = toLanguage;
+            Translations = translations;
         }
     }
 }

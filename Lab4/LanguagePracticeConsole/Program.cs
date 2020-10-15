@@ -1,9 +1,5 @@
 ﻿using LanguageLibrary;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LanguagePracticeConsole
 {
@@ -37,16 +33,33 @@ namespace LanguagePracticeConsole
                     var languageNames = new string[userInput.Length - 2];
                     for (int i = 2; i < userInput.Length; i++)
                     {
-                        languageNames[i-2] = userInput[i];
+                        languageNames[i - 2] = userInput[i];
                     }
                     var wordlist = new WordList(listName, languageNames);
                     wordlist.Save();
-                    wordlist.Add();
+                    inputWords(listName);
                     break;
                 case "-add":
-                    WordList word = WordList.LoadList(userInput[1]);
-                    word.Add();
-                    
+                    var wordList = WordList.LoadList(userInput[1]);
+                    bool inputNotEnter = true;
+                    Console.WriteLine("Press enter to stop input");
+                    while (inputNotEnter)
+                    {
+                        var wordArray = new string[wordList.Languages.Length];
+
+                        for (int i = 0; i < wordArray.Length; i++)
+                        {
+                            var words = Console.ReadLine();
+                            wordArray[i] = words;
+                            if (string.IsNullOrWhiteSpace(words))
+                            {
+                                inputNotEnter = false;
+                                break;   
+                            }
+                        }
+                        wordList.Add(wordArray);
+                        wordList.Save();
+                    }
                     break;
                 case "-remove":
                     break;
@@ -63,6 +76,30 @@ namespace LanguagePracticeConsole
                     break;
             }
             Console.ReadLine();
+        }
+
+        public static void inputWords(string name)
+        {
+            var wordList = WordList.LoadList(name);
+            bool inputNotEnter = true;
+            Console.WriteLine("Press enter to stop input");
+            while (inputNotEnter)
+            {
+                var wordArray = new string[wordList.Languages.Length];
+
+                for (int i = 0; i < wordArray.Length; i++)
+                {
+                    Console.Write($"Write the {wordList.Languages[i]} word:");
+                    var words = Console.ReadLine();
+                    wordArray[i] = words;
+                    if (string.IsNullOrWhiteSpace(words))
+                    {
+                        inputNotEnter = false;
+                        break;
+                    }
+                }
+                wordList.Add(wordArray);
+            }
         }
     }
 }
