@@ -75,7 +75,7 @@ namespace LanguagePracticeConsole
                     Console.WriteLine();
                     break;
             }
-            Console.ReadLine();
+            //Console.ReadLine();
         }
 
         public static void inputWords(string name)
