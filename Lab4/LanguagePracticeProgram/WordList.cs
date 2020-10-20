@@ -47,7 +47,8 @@ namespace LanguageLibrary
 
             //if (File.Exists(Folder.filesInDirectory + "\\" + fileName + ".dat"))
             //{
-                LoadList(fileName);
+            string file = Path.GetFileName(Folder.filesInDirectory + "\\" + fileName + ".dat");
+            LoadList(fileName);
             //StreamWriter addWords = new StreamWriter(Folder.filesInDirectory + "\\" + fileName + ".dat", false);
 
                 //for (int i = 0; i < Languages.Length; i++)
@@ -68,17 +69,19 @@ namespace LanguageLibrary
             {
                 languages += Languages[i] + ";";
             }
-            File.WriteAllText(Folder.filesInDirectory + "\\" + fileName + ".dat", languages);
+            File.WriteAllText(file, languages);
 
-            var words = "";
-            for (int i = 0; i < languageWords.Count-1; i++)
+            foreach (var t in languageWords)
             {
-                for (int j = 0; j < Languages.Length-1; j++)
                 {
-                words += languageWords[i].Translations[j] + ";";
+                    File.AppendAllText(file, "\n");
                 }
+                for (int j = 0; j < Languages.Length; j++)
+                    {
+                        File.AppendAllText(file, $"{t.Translations[j]};");
+                    }
             }
-            File.AppendAllText(Folder.filesInDirectory + "\\" + fileName + ".dat", words);
+            //File.AppendAllText(Folder.filesInDirectory + "\\" + fileName + ".dat", words);
             //}
         }
 
