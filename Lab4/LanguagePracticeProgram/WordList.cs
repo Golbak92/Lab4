@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -53,7 +54,7 @@ namespace LanguageLibrary
             }
             File.WriteAllText(file, languages);
 
-            var words = "";
+            string words = "";
             for (int i = 0; i < languageWords.Count; i++)
             {
                 for (int j = 0; j < Languages.Length; j++)
@@ -61,8 +62,11 @@ namespace LanguageLibrary
                     words += languageWords[i].Translations[j] + ";";
                 }
             }
+            //if (words.Length == Languages.Length)
+            //{
+            //    File.AppendAllText(file, "\n");
+            //}
             File.AppendAllText(file, words);
-
         }
 
         public void Add(params string[] translations) //Lägger till ord i listan. Kasta ArgumentException om det är fel antal translations.
