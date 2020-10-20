@@ -28,15 +28,15 @@ namespace LanguageLibrary
 
         public static WordList LoadList(string fileName) //Laddar in ordlistan (name anges utan filändelse) och returnerar som WordList.
         {
-            if (File.Exists(Folder.filesInDirectory + "\\" + fileName + ".dat"))
+            if (File.Exists(Folder.GetFilePath(fileName)))
             {
-                using StreamReader sr = new StreamReader(Folder.filesInDirectory + "\\" + fileName + ".dat");
+                using StreamReader sr = new StreamReader(Folder.GetFilePath(fileName));
                 var languages = sr.ReadLine().TrimEnd(';').Split(';');
                 WordList wordList = new WordList(fileName, languages);
                 while (!sr.EndOfStream)
                 {
                     var translations = sr.ReadLine().TrimEnd(';').Split(';');
-                    //wordList.Add(translations);
+                    wordList.Add(translations);
                 }
                 return wordList;
             }
@@ -45,28 +45,25 @@ namespace LanguageLibrary
 
         public void Save() //Sparar listan till en fil med samma namn som listan och filändelse .dat 
         {
-            var file = Folder.filesInDirectory + "\\" + fileName + ".dat";
+            LoadList(fileName);
+            var file = Folder.GetFilePath(fileName);
+            using var fs = File.Create(Folder.GetFilePath(fileName));
+            fs.Close();
 
-            var languages = "";
-            for (int i = 0; i < Languages.Length; i++)
+            foreach (var language in Languages)
             {
-                languages += Languages[i] + ";";
+                File.AppendAllText(file, language + ";");
             }
-            File.WriteAllText(file, languages);
-
-            string words = "";
-            for (int i = 0; i < languageWords.Count; i++)
+            foreach (var words in languageWords)
             {
-                for (int j = 0; j < Languages.Length; j++)
+                File.AppendAllText(file, "\n");
+
+                for (int i = 0; i < Languages.Length; i++)
                 {
-                    words += languageWords[i].Translations[j] + ";";
+                    File.AppendAllText(file, words.Translations[i] + ";");
                 }
             }
-            //if (words.Length == Languages.Length)
-            //{
-            //    File.AppendAllText(file, "\n");
-            //}
-            File.AppendAllText(file, words);
+
         }
 
         public void Add(params string[] translations) //Lägger till ord i listan. Kasta ArgumentException om det är fel antal translations.
@@ -88,13 +85,20 @@ namespace LanguageLibrary
 
         public int Count() //Räknar och returnerar antal ord i listan.
         {
-            return 0;
+            return languageWords.Count;
         }
 
         public void List(int sortByTranslation, Action<string[]> showTranslations)
         //sortByTranslation = Vilket språk listan ska sorteras på.
         //showTranslations = Callback som anropas för varje ord i listan.
         {
+            var sortedTranslations = languageWords.OrderBy(x => x.Translations[sortByTranslation]).ToArray();
+
+            LoadList(fileName);
+            foreach (var translation in sortedTranslations)
+            {
+                showTranslations(translation.Translations);
+            }
         }
 
         public Word GetWordToPractice()

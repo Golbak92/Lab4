@@ -15,6 +15,11 @@ namespace LanguageLibrary
             // CreateDirectory will check if folder exists and, if not, create it.
             // If folder exists then CreateDirectory will do nothing.
             Directory.CreateDirectory(filesInDirectory);
-        }    
+        }
+
+        public static string GetFilePath(string name)
+        {
+            return $"{filesInDirectory}\\{name}.dat";
+        }
     }
 }

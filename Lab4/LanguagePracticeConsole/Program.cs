@@ -1,5 +1,7 @@
 ﻿using LanguageLibrary;
 using System;
+using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 
 namespace LanguagePracticeConsole
 {
@@ -41,6 +43,7 @@ namespace LanguagePracticeConsole
                     break;
                 case "-add":
                     var wordList = WordList.LoadList(userInput[1]);
+                    var languageArray = wordList.Languages;
                     bool inputNotEnter = true;
                     Console.WriteLine("Press enter to stop input");
                     while (inputNotEnter)
@@ -49,6 +52,7 @@ namespace LanguagePracticeConsole
 
                         for (int i = 0; i < wordArray.Length; i++)
                         {
+                            Console.WriteLine($"Write the {languageArray[i]} word.");
                             var words = Console.ReadLine();
                             wordArray[i] = words;
                             if (string.IsNullOrWhiteSpace(words))
@@ -59,14 +63,15 @@ namespace LanguagePracticeConsole
                         }
                         wordList.Add(wordArray);
                     }
-                        wordList.Save();
                     break;
                 case "-remove":
                     break;
                 case "-words":
-                    WordList.LoadList("lang3");
+
                     break;
                 case "-count":
+                    var countList = WordList.LoadList(userInput[1]);
+                    Console.WriteLine($"The list {userInput[1]} has {countList.Count()} words.");
                     break;
                 case "-practice":
                     break;
@@ -92,14 +97,15 @@ namespace LanguagePracticeConsole
                     Console.Write($"Write the {wordList.Languages[i]} word:");
                     var words = Console.ReadLine();
                     wordArray[i] = words;
-                    if (string.IsNullOrWhiteSpace(words))
+                    if (string.IsNullOrEmpty(words))
                     {
                         inputNotEnter = false;
+                        wordList.Save();
                         break;
                     }
                 }
                 wordList.Add(wordArray);
-            }
+            }      
         }
     }
 }
