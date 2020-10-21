@@ -43,13 +43,13 @@ namespace LanguageLibrary
             return null;
         }
 
-        public void Save() //Sparar listan till en fil med samma namn som listan och filändelse .dat 
+        public void Save() //Saves list to a file with same name as the list and extensio .dat 
         {
             LoadList(fileName);
             var file = Folder.GetFilePath(fileName);
             using var fs = File.Create(Folder.GetFilePath(fileName));
             fs.Close();
-
+            
             foreach (var language in Languages)
             {
                 File.AppendAllText(file, language + ";");
@@ -63,10 +63,9 @@ namespace LanguageLibrary
                     File.AppendAllText(file, words.Translations[i] + ";");
                 }
             }
-
         }
 
-        public void Add(params string[] translations) //Lägger till ord i listan. Kasta ArgumentException om det är fel antal translations.
+        public void Add(params string[] translations) //Add words to list. Cast ArgumentException if invalid amount of translations.
         {
             if (translations.Length == Languages.Length)
             {
@@ -83,18 +82,15 @@ namespace LanguageLibrary
             return true;
         }
 
-        public int Count() //Räknar och returnerar antal ord i listan.
+        public int Count() //Counts and returns number of words in the list...
         {
             return languageWords.Count;
         }
 
         public void List(int sortByTranslation, Action<string[]> showTranslations)
-        //sortByTranslation = Vilket språk listan ska sorteras på.
-        //showTranslations = Callback som anropas för varje ord i listan.
         {
             var sortedTranslations = languageWords.OrderBy(x => x.Translations[sortByTranslation]).ToArray();
 
-            LoadList(fileName);
             foreach (var translation in sortedTranslations)
             {
                 showTranslations(translation.Translations);
