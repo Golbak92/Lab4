@@ -77,9 +77,10 @@ namespace LanguageLibrary
             }
         }
 
-        public bool Remove(int translation, string word) //translation motsvarar index i Languages. Sök igenom språket och ta bort ordet.
+        public void Remove(int translation, string word) //translation motsvarar index i Languages. Sök igenom språket och ta bort ordet.
         {
-            return true;
+            var modifiedList = languageWords.Where(x => x.Translations[translation] != word).ToList();
+            languageWords = modifiedList;
         }
 
         public int Count() //Counts and returns number of words in the list...

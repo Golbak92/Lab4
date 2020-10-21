@@ -64,6 +64,22 @@ namespace LanguagePracticeConsole
                     }
                     break;
                 case "remove":
+                    var removeWords = WordList.LoadList(userInput[1]);
+                    var languageInt = 0;
+
+                    for (int i = 0; i < removeWords.Languages.Length; i++)
+                    {
+                        if (removeWords.Languages[i] == userInput[2])
+                        {
+                            languageInt = i;
+                        }
+                    }
+
+                    for (int i = 3; i < userInput.Length; i++)
+                    {
+                        removeWords.Remove(languageInt, userInput[i]);
+                    }
+                    removeWords.Save();
                     break;
                 case "words":
                     var getList = WordList.LoadList(userInput[1]);
