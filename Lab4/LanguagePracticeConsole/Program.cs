@@ -5,21 +5,22 @@ namespace LanguagePracticeConsole
 {
     class Program
     {
-        static void Main(string[] args) //video 29 command lines arguments
+        static void Main(string[] args)
         {
+            bool pressEnterToStop = true;
             Folder.CreateMap();
 
-            Console.WriteLine("Use any of the following parameters:");
+            Console.WriteLine("Use any of the following parameters:\n");
             Console.WriteLine("lists");
             Console.WriteLine("new <listName><language 1><language 2>..<language n>");
             Console.WriteLine("add <listName>");
             Console.WriteLine("remove <listName><language><word 1><word 2>..<word n>");
             Console.WriteLine("words <listName><sortByLanguage>");
             Console.WriteLine("count <listName>");
-            Console.WriteLine("practice <listName>");
-            string[] userInput = Console.ReadLine().Split(' ');
+            Console.WriteLine("practice <listName>\n");
+            Console.WriteLine("Enter your parameter here: ");
 
-            switch (userInput[0])
+            switch (args[0])
             {
                 case "lists":
                     var files = WordList.GetLists();
@@ -29,22 +30,21 @@ namespace LanguagePracticeConsole
                     }
                     break;
                 case "new":
-                    string listName = userInput[1];
-                    var languageNames = new string[userInput.Length - 2];
-                    for (int i = 2; i < userInput.Length; i++)
+                    string listName = args[1];
+                    var languageNames = new string[args.Length - 2];
+                    for (int i = 2; i < args.Length; i++)
                     {
-                        languageNames[i - 2] = userInput[i];
+                        languageNames[i - 2] = args[i];
                     }
                     var wordlist = new WordList(listName, languageNames);
                     wordlist.Save();
                     inputWords(listName);
                     break;
                 case "add":
-                    var wordList = WordList.LoadList(userInput[1]);
+                    var wordList = WordList.LoadList(args[1]);
                     var languageArray = wordList.Languages;
-                    bool inputNotEnter = true;
-                    Console.WriteLine("Press enter to stop input.");
-                    while (inputNotEnter)
+                    Console.WriteLine("\nPress enter to stop input.");
+                    while (pressEnterToStop)
                     {
                         var wordArray = new string[wordList.Languages.Length];
 
@@ -55,7 +55,7 @@ namespace LanguagePracticeConsole
                             wordArray[i] = words;
                             if (string.IsNullOrWhiteSpace(words))
                             {
-                                inputNotEnter = false;
+                                pressEnterToStop = false;
                                 wordList.Save();
                                 break;
                             }
@@ -64,34 +64,35 @@ namespace LanguagePracticeConsole
                     }
                     break;
                 case "remove":
-                    var removeWords = WordList.LoadList(userInput[1]);
+                    var removeWords = WordList.LoadList(args[1]);
                     var languageInt = 0;
 
                     for (int i = 0; i < removeWords.Languages.Length; i++)
                     {
-                        if (removeWords.Languages[i] == userInput[2])
+                        if (removeWords.Languages[i] == args[2])
                         {
                             languageInt = i;
                         }
                     }
 
-                    for (int i = 3; i < userInput.Length; i++)
+                    for (int i = 3; i < args.Length; i++)
                     {
-                        removeWords.Remove(languageInt, userInput[i]);
+                        removeWords.Remove(languageInt, args[i]);
                     }
                     removeWords.Save();
                     break;
                 case "words":
-                    var getList = WordList.LoadList(userInput[1]);
+                    var getList = WordList.LoadList(args[1]);
                     int languageNum = 0;
 
                     for (int i = 0; i < getList.Languages.Length; i++)
                     {
-                        if (getList.Languages[i].ToLower() == userInput[2].ToLower())
+                        if (getList.Languages[i].ToLower() == args[2].ToLower())
                         {
                             languageNum = i;
                         }
                     }
+                    Console.WriteLine();
                     foreach (var languages in getList.Languages)
                     {
                         Console.Write(languages.PadRight(20).ToUpper());
@@ -107,10 +108,40 @@ namespace LanguagePracticeConsole
                     });
                     break;
                 case "count":
-                    var countList = WordList.LoadList(userInput[1]);
-                    Console.WriteLine($"The list {userInput[1]} has {countList.Count()} words.");
+                    var countList = WordList.LoadList(args[1]);
+                    Console.WriteLine($"\nThe listname '{args[1]}' has {countList.Count()} words.");
                     break;
                 case "practice":
+                    var practiceList = WordList.LoadList(args[1]);
+
+                    var correctAnswer = 0;
+
+                    while (pressEnterToStop)
+                    {
+                        var wordTrainer = practiceList.GetWordToPractice();
+                        Console.WriteLine($"\nThe randomized languages you get to practice on are from: " +
+                            $"'{practiceList.Languages[wordTrainer.FromLanguage]}' " +
+                            $"to: '{practiceList.Languages[wordTrainer.ToLanguage]}'");
+                        Console.WriteLine($"Type the correct answer of '{wordTrainer.Translations[wordTrainer.FromLanguage]}'");
+                        var input = Console.ReadLine();
+
+                        if (input == wordTrainer.Translations[wordTrainer.ToLanguage])
+                        {
+                            Console.WriteLine("Congratulations! The answer is correct!");
+                            correctAnswer++;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Sorry, The answer is wrong!");
+                        }
+
+                        if (string.IsNullOrWhiteSpace(input))
+                        {
+                            Console.WriteLine($"You got {correctAnswer} points");
+                            pressEnterToStop = false;
+                            break;
+                        }
+                    }
                     break;
 
                 default:
@@ -123,9 +154,9 @@ namespace LanguagePracticeConsole
         public static void inputWords(string name)
         {
             var wordList = WordList.LoadList(name);
-            bool inputNotEnter = true;
+            bool pressEnterToStop = true;
             Console.WriteLine("Press enter to stop input");
-            while (inputNotEnter)
+            while (pressEnterToStop)
             {
                 var wordArray = new string[wordList.Languages.Length];
 
@@ -136,7 +167,7 @@ namespace LanguagePracticeConsole
                     wordArray[i] = words;
                     if (string.IsNullOrEmpty(words))
                     {
-                        inputNotEnter = false;
+                        pressEnterToStop = false;
                         wordList.Save();
                         break;
                     }

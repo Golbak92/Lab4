@@ -99,10 +99,21 @@ namespace LanguageLibrary
         }
 
         public Word GetWordToPractice()
-        //Returnerar slumpmässigt Word från listan, med slumpmässigt valda
-        //FromLanguage och ToLanguage(dock inte samma).
         {
-            return null;
+            LoadList(fileName);
+            Random rnd = new Random();
+            int rndWord = rnd.Next(languageWords.Count);
+            int fromLanguage = rnd.Next(Languages.Length);
+            int toLanguage = rnd.Next(Languages.Length);
+
+            while (fromLanguage == toLanguage)
+            {
+                toLanguage = rnd.Next(Languages.Length);
+            }
+
+            Word rndLanguageWords = new Word(fromLanguage, toLanguage, languageWords[rndWord].Translations);
+
+            return rndLanguageWords;
         }
     }
 }
