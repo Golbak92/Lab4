@@ -12,20 +12,21 @@ namespace LanguagePracticeWinform
             InitializeComponent();
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void MainMenu_Activated(object sender, EventArgs e)
         {
+            listboxListNames.Items.Clear();
             var files = WordList.GetLists();
             foreach (var file in files)
             {
-                listBox1.Items.Add(file);
+                listboxListNames.Items.Add(file);
             }
         }
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (listBox1.SelectedItem != null)
+            if (listboxListNames.SelectedItem != null)
             {
-                var name = listBox1.SelectedItem.ToString();
+                var name = listboxListNames.SelectedItem.ToString();
                 var languageArray = WordList.LoadList(name).Languages;
                 dataGridView.Rows.Clear();
                 dataGridView.Columns.Clear();
@@ -48,12 +49,14 @@ namespace LanguagePracticeWinform
 
         private void buttonNewList_Click(object sender, EventArgs e)
         {
-            NewList newList = new NewList();
+            FormNewList newList = new FormNewList();
+            newList.ShowDialog();
+        }
 
-            if (newList.ShowDialog() == DialogResult.OK)
-            {
-
-            }
+        private void button1_Click(object sender, EventArgs e)
+        {
+                FormAddWords addWords = new FormAddWords();
+                addWords.ShowDialog();
         }
     }
 }
