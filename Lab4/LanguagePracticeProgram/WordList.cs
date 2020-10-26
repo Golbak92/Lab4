@@ -20,6 +20,8 @@ namespace LanguageLibrary
 
         public static string[] GetLists() //Returnerar array med namn på alla listor som finns lagrade (utan filändelsen).
         {
+            Folder.CreateMap();
+
             var files = Directory.GetFiles(Folder.filesInDirectory)
                  .Select(f => Path.GetFileNameWithoutExtension(f))
                  .ToArray();
@@ -28,6 +30,8 @@ namespace LanguageLibrary
 
         public static WordList LoadList(string fileName) //Laddar in ordlistan (name anges utan filändelse) och returnerar som WordList.
         {
+            Folder.CreateMap();
+
             if (File.Exists(Folder.GetFilePath(fileName)))
             {
                 using StreamReader sr = new StreamReader(Folder.GetFilePath(fileName));
