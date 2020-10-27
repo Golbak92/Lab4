@@ -36,20 +36,23 @@
             // 
             // dataGridViewAddWords
             // 
+            this.dataGridViewAddWords.AllowUserToDeleteRows = false;
             this.dataGridViewAddWords.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataGridViewAddWords.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridViewAddWords.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dataGridViewAddWords.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewAddWords.Location = new System.Drawing.Point(12, 12);
             this.dataGridViewAddWords.Name = "dataGridViewAddWords";
-            this.dataGridViewAddWords.Size = new System.Drawing.Size(467, 249);
+            this.dataGridViewAddWords.RowHeadersVisible = false;
+            this.dataGridViewAddWords.Size = new System.Drawing.Size(454, 254);
             this.dataGridViewAddWords.TabIndex = 0;
-            this.dataGridViewAddWords.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
             // buttonAddWordsCancel
             // 
             this.buttonAddWordsCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.buttonAddWordsCancel.Location = new System.Drawing.Point(12, 271);
+            this.buttonAddWordsCancel.Location = new System.Drawing.Point(12, 276);
             this.buttonAddWordsCancel.Name = "buttonAddWordsCancel";
             this.buttonAddWordsCancel.Size = new System.Drawing.Size(75, 23);
             this.buttonAddWordsCancel.TabIndex = 1;
@@ -60,18 +63,19 @@
             // buttonAddWordsConfirm
             // 
             this.buttonAddWordsConfirm.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonAddWordsConfirm.Location = new System.Drawing.Point(404, 271);
+            this.buttonAddWordsConfirm.Location = new System.Drawing.Point(391, 276);
             this.buttonAddWordsConfirm.Name = "buttonAddWordsConfirm";
             this.buttonAddWordsConfirm.Size = new System.Drawing.Size(75, 23);
             this.buttonAddWordsConfirm.TabIndex = 2;
             this.buttonAddWordsConfirm.Text = "Confirm";
             this.buttonAddWordsConfirm.UseVisualStyleBackColor = true;
+            this.buttonAddWordsConfirm.Click += new System.EventHandler(this.buttonAddWordsConfirm_Click);
             // 
             // FormAddWords
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(491, 306);
+            this.ClientSize = new System.Drawing.Size(478, 311);
             this.Controls.Add(this.buttonAddWordsConfirm);
             this.Controls.Add(this.buttonAddWordsCancel);
             this.Controls.Add(this.dataGridViewAddWords);

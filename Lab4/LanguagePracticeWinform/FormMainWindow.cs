@@ -1,6 +1,5 @@
 ﻿using LanguageLibrary;
 using System;
-using System.Linq;
 using System.Windows.Forms;
 
 namespace LanguagePracticeWinform
@@ -40,7 +39,7 @@ namespace LanguagePracticeWinform
                 var languageNum = 0;
                 WordList.LoadList(name).List(languageNum, x =>
                 {
-                        dataGridView.Rows.Add(x);
+                    dataGridView.Rows.Add(x);
                 });
 
                 WordCounter.Text = "WordCounter: " + WordList.LoadList(name).Count().ToString();
@@ -55,8 +54,15 @@ namespace LanguagePracticeWinform
 
         private void button1_Click(object sender, EventArgs e)
         {
-                FormAddWords addWords = new FormAddWords();
-                addWords.ShowDialog();
+            if (listboxListNames.SelectedItem == null)
+            {
+                MessageBox.Show("Choose a list you wish to add words in first!");
+            }
+            else
+            {
+            FormAddWords addWords = new FormAddWords(listboxListNames.SelectedItem.ToString());
+            addWords.ShowDialog();
+            }
         }
     }
 }
