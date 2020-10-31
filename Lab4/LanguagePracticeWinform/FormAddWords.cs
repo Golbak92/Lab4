@@ -7,17 +7,17 @@ namespace LanguagePracticeWinform
 {
     public partial class FormAddWords : Form
     {
-        public string Name { get; set; }
+        public string fileName { get; set; }
 
         public FormAddWords(string name)
         {
             InitializeComponent();
-            Name = name;
+            fileName = name;
         }
 
         private void FormAddWords_Load(object sender, EventArgs e)
         {
-            var languages = WordList.LoadList(Name).Languages;
+            var languages = WordList.LoadList(fileName).Languages;
             foreach (var language in languages)
             {
                 dataGridViewAddWords.Columns.Add("Languages", language.ToUpper());
@@ -27,10 +27,10 @@ namespace LanguagePracticeWinform
 
         private void buttonAddWordsConfirm_Click(object sender, EventArgs e)
         {
-            var wordList = WordList.LoadList(Name);
-            var wordsArray = new string[wordList.Languages.Length];
+            var wordList = WordList.LoadList(fileName);
             for (int i = 0; i < dataGridViewAddWords.Rows.Count; i++)
             {
+                var wordsArray = new string[wordList.Languages.Length];
                 for (int j = 0; j < wordsArray.Length; j++)
                 {
                     if (dataGridViewAddWords.Rows[i].Cells[j].Value != null)

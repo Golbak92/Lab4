@@ -12,12 +12,12 @@ namespace LanguagePracticeWinform
 {
     public partial class FormPractice : Form
     {
-        public string Name { get; set; }
+        public string fileName { get; set; }
 
         public FormPractice(string name)
         {
             InitializeComponent();
-            Name = name;
+            fileName = name;
         }
 
         private void FormPractice_Load(object sender, EventArgs e)

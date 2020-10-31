@@ -89,7 +89,6 @@
             this.Controls.Add(this.buttonPracticeRestart);
             this.Controls.Add(this.buttonPracticeExit);
             this.Controls.Add(this.textboxPracticeAnswer);
-            this.Name = "FormPractice";
             this.Text = "FormPractice";
             this.Load += new System.EventHandler(this.FormPractice_Load);
             this.ResumeLayout(false);

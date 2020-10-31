@@ -80,22 +80,27 @@ namespace LanguagePracticeWinform
 
         private void buttonRemoveWords(object sender, EventArgs e)
         {
-            var list = listboxListNames.SelectedItem.ToString();
-            var removeWords = WordList.LoadList(UserInput(args)[1]);
+            //var list = listboxListNames.SelectedItem.ToString();
+            var removeWords = WordList.LoadList(listboxListNames.SelectedItem.ToString());
             var languageInt = 0;
 
-            for (int i = 0; i < removeWords.Languages.Length; i++)
+            foreach (DataGridViewRow words in dataGridView.SelectedRows)
             {
-                if (removeWords.Languages[i] == UserInput(args)[2])
+                for (int i = 0; i < words.Index; i++)
                 {
-                    languageInt = i;
+                    removeWords.Remove(languageInt, words.Cells[i].Value.ToString());
                 }
             }
 
-            for (int i = 3; i < UserInput(args).Length; i++)
-            {
-                removeWords.Remove(languageInt, UserInput(args)[i]);
-            }
+            //for (int i = 0; i < dataGridView; i++)
+            //{
+            //    dataGridView.Rows.Cells[i].Value.ToString();
+            //}
+
+            //for (int i = 3; i < UserInput(args).Length; i++)
+            //{
+            //    removeWords.Remove(languageInt, UserInput(args)[i]);
+            //}
             removeWords.Save();
         }
     }
