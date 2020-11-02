@@ -60,8 +60,8 @@ namespace LanguagePracticeWinform
             }
             else
             {
-            FormAddWords addWords = new FormAddWords(listboxListNames.SelectedItem.ToString());
-            addWords.ShowDialog();
+                FormAddWords addWords = new FormAddWords(listboxListNames.SelectedItem.ToString());
+                addWords.ShowDialog();
             }
         }
 
@@ -80,28 +80,19 @@ namespace LanguagePracticeWinform
 
         private void buttonRemoveWords(object sender, EventArgs e)
         {
-            //var list = listboxListNames.SelectedItem.ToString();
             var removeWords = WordList.LoadList(listboxListNames.SelectedItem.ToString());
+            var selectedRows = dataGridView.SelectedRows;
             var languageInt = 0;
 
-            foreach (DataGridViewRow words in dataGridView.SelectedRows)
+            if (selectedRows.Count != 0)
             {
-                for (int i = 0; i < words.Index; i++)
+                foreach (DataGridViewRow words in selectedRows)
                 {
-                    removeWords.Remove(languageInt, words.Cells[i].Value.ToString());
+                    dataGridView.Rows.RemoveAt(words.Index);
                 }
+                removeWords.Remove(languageInt, selectedRows[0].Cells[0].Value.ToString());
+                removeWords.Save();
             }
-
-            //for (int i = 0; i < dataGridView; i++)
-            //{
-            //    dataGridView.Rows.Cells[i].Value.ToString();
-            //}
-
-            //for (int i = 3; i < UserInput(args).Length; i++)
-            //{
-            //    removeWords.Remove(languageInt, UserInput(args)[i]);
-            //}
-            removeWords.Save();
         }
     }
 }

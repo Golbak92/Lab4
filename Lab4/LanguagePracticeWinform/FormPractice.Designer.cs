@@ -60,6 +60,7 @@
             this.buttonPracticeRestart.TabIndex = 2;
             this.buttonPracticeRestart.Text = "Restart";
             this.buttonPracticeRestart.UseVisualStyleBackColor = true;
+            this.buttonPracticeRestart.Click += new System.EventHandler(this.buttonPracticeRestart_Click);
             // 
             // labelPracticeWordOutput
             // 
@@ -89,6 +90,7 @@
             this.Controls.Add(this.buttonPracticeRestart);
             this.Controls.Add(this.buttonPracticeExit);
             this.Controls.Add(this.textboxPracticeAnswer);
+            this.Name = "FormPractice";
             this.Text = "FormPractice";
             this.Load += new System.EventHandler(this.FormPractice_Load);
             this.ResumeLayout(false);
