@@ -115,7 +115,6 @@ namespace LanguagePracticeConsole
                     case "practice":
                         pressEnterToStop = true;
                         var practiceList = WordList.LoadList(UserInput(args)[1]);
-
                         var correctAnswer = 0;
 
                         while (pressEnterToStop)

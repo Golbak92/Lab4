@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using LanguageLibrary;
+using System;
 using System.Windows.Forms;
 
 namespace LanguagePracticeWinform
@@ -13,6 +7,12 @@ namespace LanguagePracticeWinform
     public partial class FormPractice : Form
     {
         public string fileName { get; set; }
+
+        public WordList practiceList { get { return WordList.LoadList(fileName); } }
+
+        public Word wordToPractice { get; set; }
+
+        public int score { get; set; }
 
         public FormPractice(string name)
         {
@@ -22,14 +22,19 @@ namespace LanguagePracticeWinform
 
         private void FormPractice_Load(object sender, EventArgs e)
         {
-            // 1. ladda in listan som man valt
-            // 2. ladda getpractice metoden som jag sparar till en ny word object
-            // 3. sätta label till sträng t.ex. " översätt fr - till"
-            // 4. kolla så att textboxen är == toLanguage ordet
+            wordToPractice = practiceList.GetWordToPractice();
+
+            FromToLanguage.Text = $"Translate from {practiceList.Languages[wordToPractice.FromLanguage]} to " +
+                $"{practiceList.Languages[wordToPractice.ToLanguage]}.";
+
+            labelPracticeWordOutput.Text = $"Type the correct answer of '{wordToPractice.Translations[wordToPractice.FromLanguage]}'";
         }
+
         private void buttonPracticeRestart_Click(object sender, EventArgs e)
         {
-
+            score = 0;
+            labelPracticeScore.Text = $"You got {score} points";
+            MessageBox.Show("The practice mode is now restarted.");
         }
 
         private void buttonExit(object sender, EventArgs e)
@@ -37,5 +42,26 @@ namespace LanguagePracticeWinform
             Close();
         }
 
+        private void textboxPracticeAnswer_KeyDown(object sender, KeyEventArgs e)
+        {
+            var textBox = textboxPracticeAnswer.Text.ToLower();
+
+            if (e.KeyCode == Keys.Enter)
+            {
+                if (textBox == wordToPractice.Translations[wordToPractice.ToLanguage].ToLower())
+                {
+                    labelAnswerMessage.Text = "Congratulations! The answer is correct!";
+                    score++;
+                }
+                else
+                {
+                    labelAnswerMessage.Text = "Sorry, The answer is wrong!";
+                }
+                labelPracticeScore.Text = $"You got {score} points";
+
+                wordToPractice = practiceList.GetWordToPractice();
+                labelPracticeWordOutput.Text = $"Type the correct answer of '{wordToPractice.Translations[wordToPractice.FromLanguage]}'";
+            }
+        }
     }
 }
