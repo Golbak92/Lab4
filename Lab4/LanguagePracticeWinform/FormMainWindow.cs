@@ -80,18 +80,25 @@ namespace LanguagePracticeWinform
 
         private void buttonRemoveWords(object sender, EventArgs e)
         {
-            var removeWords = WordList.LoadList(listboxListNames.SelectedItem.ToString());
-            var selectedRows = dataGridView.SelectedRows;
-            var languageInt = 0;
-
-            if (selectedRows.Count != 0)
+            if (listboxListNames.SelectedItem == null)
             {
-                foreach (DataGridViewRow words in selectedRows)
+                MessageBox.Show("Choose a list first that you wish to remove words from!");
+            }
+            else
+            {
+                var removeWords = WordList.LoadList(listboxListNames.SelectedItem.ToString());
+                var selectedRows = dataGridView.SelectedRows;
+                var languageInt = 0;
+
+                if (selectedRows.Count != 0)
                 {
-                    dataGridView.Rows.RemoveAt(words.Index);
+                    foreach (DataGridViewRow words in selectedRows)
+                    {
+                        dataGridView.Rows.RemoveAt(words.Index);
+                    }
+                    removeWords.Remove(languageInt, selectedRows[0].Cells[0].Value.ToString());
+                    removeWords.Save();
                 }
-                removeWords.Remove(languageInt, selectedRows[0].Cells[0].Value.ToString());
-                removeWords.Save();
             }
         }
     }

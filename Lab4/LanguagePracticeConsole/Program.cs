@@ -7,29 +7,29 @@ namespace LanguagePracticeConsole
     {
         static void Main(string[] args)
         {
-            if (args.Length == 0)
+            if (args.Length <= 0)
             {
                 Console.WriteLine("Use any of the following parameters:\n");
-                Console.WriteLine("lists");
-                Console.WriteLine("new <listName><language 1><language 2>..<language n>");
-                Console.WriteLine("add <listName>");
-                Console.WriteLine("remove <listName><language><word 1><word 2>..<word n>");
-                Console.WriteLine("words <listName><sortByLanguage>");
-                Console.WriteLine("count <listName>");
-                Console.WriteLine("practice <listName>\n");
+                Console.WriteLine("-lists");
+                Console.WriteLine("-new <listName><language 1><language 2>..<language n>");
+                Console.WriteLine("-add <listName>");
+                Console.WriteLine("-remove <listName><language><word 1><word 2>..<word n>");
+                Console.WriteLine("-words <listName><sortByLanguage>");
+                Console.WriteLine("-count <listName>");
+                Console.WriteLine("-practice <listName>\n");
             }
             try
             {
                 switch (UserInput(args)[0])
                 {
-                    case "lists":
+                    case "-lists":
                         var files = WordList.GetLists();
                         foreach (var file in files)
                         {
                             Console.WriteLine(file);
                         }
                         break;
-                    case "new":
+                    case "-new":
                         string listName = UserInput(args)[1];
                         var languageNames = new string[UserInput(args).Length - 2];
                         for (int i = 2; i < UserInput(args).Length; i++)
@@ -40,7 +40,7 @@ namespace LanguagePracticeConsole
                         wordlist.Save();
                         inputWords(listName);
                         break;
-                    case "add":
+                    case "-add":
                         var pressEnterToStop = true;
                         var wordList = WordList.LoadList(UserInput(args)[1]);
                         var languageArray = wordList.Languages;
@@ -64,13 +64,13 @@ namespace LanguagePracticeConsole
                             wordList.Add(wordArray);
                         }
                         break;
-                    case "remove":
+                    case "-remove":
                         var removeWords = WordList.LoadList(UserInput(args)[1]);
                         var languageInt = 0;
 
                         for (int i = 0; i < removeWords.Languages.Length; i++)
                         {
-                            if (removeWords.Languages[i] == UserInput(args)[2])
+                            if (removeWords.Languages[i].ToLower() == UserInput(args)[2].ToLower())
                             {
                                 languageInt = i;
                             }
@@ -78,11 +78,17 @@ namespace LanguagePracticeConsole
 
                         for (int i = 3; i < UserInput(args).Length; i++)
                         {
-                            removeWords.Remove(languageInt, UserInput(args)[i]);
+                            removeWords.Remove(languageInt, UserInput(args)[i].ToLower());
                         }
                         removeWords.Save();
+
+                        for (int i = 0; i < UserInput(args).Length; i++)
+                        {
+                        Console.WriteLine();
+                        Console.WriteLine("The following words were removed: " + $"\n-{UserInput(args)[i]}");
+                        }
                         break;
-                    case "words":
+                    case "-words":
                         var getList = WordList.LoadList(UserInput(args)[1]);
                         int languageNum = 0;
 
@@ -108,11 +114,11 @@ namespace LanguagePracticeConsole
                             Console.WriteLine();
                         });
                         break;
-                    case "count":
+                    case "-count":
                         var countList = WordList.LoadList(UserInput(args)[1]);
                         Console.WriteLine($"\nThe listname '{UserInput(args)[1]}' has {countList.Count()} words.");
                         break;
-                    case "practice":
+                    case "-practice":
                         pressEnterToStop = true;
                         var practiceList = WordList.LoadList(UserInput(args)[1]);
                         var correctAnswer = 0;
@@ -120,9 +126,8 @@ namespace LanguagePracticeConsole
                         while (pressEnterToStop)
                         {
                             var wordTrainer = practiceList.GetWordToPractice();
-                            Console.WriteLine($"\nThe randomized languages you get to practice on are from: " +
-                                $"'{practiceList.Languages[wordTrainer.FromLanguage]}' " +
-                                $"to: '{practiceList.Languages[wordTrainer.ToLanguage]}'");
+                            Console.WriteLine($"\nTranslate from: '{practiceList.Languages[wordTrainer.FromLanguage]}' "
+                                + $"to: '{practiceList.Languages[wordTrainer.ToLanguage]}'");
                             Console.WriteLine($"Type the correct answer of '{wordTrainer.Translations[wordTrainer.FromLanguage]}'");
                             var input = Console.ReadLine().ToLower();
 
@@ -153,7 +158,6 @@ namespace LanguagePracticeConsole
 
             catch (Exception)
             {
-                Console.WriteLine("Something went wrong!");
             }
 
         }

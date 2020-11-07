@@ -7,11 +7,8 @@ namespace LanguagePracticeWinform
     public partial class FormPractice : Form
     {
         public string fileName { get; set; }
-
         public WordList practiceList { get { return WordList.LoadList(fileName); } }
-
         public Word wordToPractice { get; set; }
-
         public int score { get; set; }
 
         public FormPractice(string name)
@@ -28,6 +25,8 @@ namespace LanguagePracticeWinform
                 $"{practiceList.Languages[wordToPractice.ToLanguage]}.";
 
             labelPracticeWordOutput.Text = $"Type the correct answer of '{wordToPractice.Translations[wordToPractice.FromLanguage]}'";
+
+            labelAnswerMessage.Hide();
         }
 
         private void buttonPracticeRestart_Click(object sender, EventArgs e)
@@ -50,16 +49,20 @@ namespace LanguagePracticeWinform
             {
                 if (textBox == wordToPractice.Translations[wordToPractice.ToLanguage].ToLower())
                 {
+                    labelAnswerMessage.Show();
                     labelAnswerMessage.Text = "Congratulations! The answer is correct!";
                     score++;
                 }
                 else
                 {
+                    labelAnswerMessage.Show();
                     labelAnswerMessage.Text = "Sorry, The answer is wrong!";
                 }
                 labelPracticeScore.Text = $"You got {score} points";
 
                 wordToPractice = practiceList.GetWordToPractice();
+                FromToLanguage.Text = $"Translate from {practiceList.Languages[wordToPractice.FromLanguage]} to " +
+                $"{practiceList.Languages[wordToPractice.ToLanguage]}.";
                 labelPracticeWordOutput.Text = $"Type the correct answer of '{wordToPractice.Translations[wordToPractice.FromLanguage]}'";
             }
         }
